@@ -17,6 +17,9 @@ Put web scraper inside a working function
  	- One row for each property
 + Stretch goal: argument to specify if you want for-sale properties or rental properties
 
+Integrate Google Cloud for Data Storage
++ Automate data entry to upload to Google Cloud with each web crawl
+
 New attributes/features
 + Mine description for more details
 + Stretch goal: enrich data with school district, crime rates, walkability, etc. (probably from another source)
