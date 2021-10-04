@@ -42,7 +42,10 @@ pprint.pprint(all_listings['cat1']['searchResults']['listResults']) #This is the
 type(all_listings['cat1']['searchResults']['listResults'])
 len(all_listings['cat1']['searchResults']['listResults'])
 #There are 40 results per page. We'll need a way to detect the number of pages so we can cycle through them all.
-
+#NEXT STEPS:
+# Make sure we have all the variables we could possibly want to collect
+# Loop through all results from a single page and add variables to dataframe / database
+# Loop through all the results pages
 
 #***************************#
 #  Individual Listing Page  #
@@ -78,3 +81,7 @@ data['VariantQuery{"zpid":296376611,"altId":null}']['property']['taxAssessedValu
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['lotAreaValue']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['lotAreaUnit']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['zestimate'] #This Zestimate does not match what's on the website for some reason
+
+#NEXT STEPS:
+# Make sure we have all the variables we could possibly want to collect
+# Save all results from a single page and add to dataframe / database
