@@ -6,10 +6,13 @@ Successfully scrape Zillow web page
 + Two methods: 
  	- 1. Scrape search results page of many listings
  	- 2. Scrape individual pages, looping through every link in results
++ Implement IP rotations
++ Implement user-agent rotations
 + Maybe: use official Zillow API
 + Alternative data source: Zillow's downloadable market data
   - MUCH more limited; data already filtered and aggregated
   - https://www.zillow.com/research/data/
++ Parse response
 
 Put web scraper inside a working function
 + Accepts either a city name or zip code
