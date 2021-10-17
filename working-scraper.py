@@ -15,8 +15,6 @@ response = requests.get(
     'https://www.zillow.com/homedetails/1723-Brent-Hills-Blvd-Gatlinburg-TN-37738/81444371_zpid/', headers=headers)
 soup = BeautifulSoup(response.content, "html.parser")
 
-print(response.text)
-
 # Address
 address = soup.find("meta", property="og:zillow_fb:address")
 address['content']
