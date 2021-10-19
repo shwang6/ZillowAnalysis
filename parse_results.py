@@ -12,7 +12,8 @@ This is the page that includes all the homes that resulted from a city/zip code 
 These pages can give us some general details on many properties with a single crawl. (40 properties per page)
 An example can be seen at https://www.zillow.com/knoxville-tn/
 """
-file = open(os.path.join('ExampleResponses', "search-results-sample.txt"), "r")
+file = open(os.path.join('ExampleResponses',
+            "search-results-sample.html"), "r")
 response = file.read()
 file.close()
 soup = BeautifulSoup(response, "html.parser")
@@ -60,7 +61,7 @@ Not only will it make the function slower, but also increase the risk of the cra
 An example of this page can be found at https://www.zillow.com/homedetails/10301-Noras-Path-Ln-Knoxville-TN-37932/296376611_zpid/
 """
 file = open(os.path.join('ExampleResponses',
-            'individual-listing-sample.txt'), 'r')
+            'individual-listing-sample.html'), 'r')
 response = file.read()
 file.close()
 soup = BeautifulSoup(response, "html.parser")
