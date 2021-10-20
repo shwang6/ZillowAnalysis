@@ -20,8 +20,8 @@ soup = BeautifulSoup(response, "html.parser")
 
 # Get the number of listings
 nListings = soup.find_all("div", class_="total-text")
-print("There are", nListings[0].text, nListings[0].next_sibling,
-      "and", nListings[1].text, nListings[1].next_sibling)
+#print("There are", nListings[0].text, nListings[0].next_sibling,
+#      "and", nListings[1].text, nListings[1].next_sibling)
 
 # Get data from all listings
 all_listings = soup.find(
@@ -34,13 +34,13 @@ all_listings = json.loads(all_listings)
 
 # Look at data:
 # View entire response
-pprint.pprint(all_listings)  # Too much output to see it all
+#pprint.pprint(all_listings)  # Too much output to see it all
 
 # Narrow it down to just the results-related data
 all_listings.keys()
 all_listings['cat1'].keys()  # We want 'cat1' > 'searchResults' > 'listResults'
 # This is the file 'search-results-sample-cleaned.txt'
-pprint.pprint(all_listings['cat1']['searchResults']['listResults'])
+#pprint.pprint(all_listings['cat1']['searchResults']['listResults'])
 
 # This is a list of json dictionaries, one entry for each home result on the page
 type(all_listings['cat1']['searchResults']['listResults'])
@@ -70,12 +70,12 @@ soup = BeautifulSoup(response, "html.parser")
 data = json.loads(soup.find("script", type="application/json",
                   id="hdpApolloPreloadedData").string)
 data = json.loads(data['apiCache'])
-pprint.pprint(data)  # This is the file 'individual-list-sample-cleaned.txt'
+#pprint.pprint(data)  # This is the file 'individual-list-sample-cleaned.txt'
 list(data.keys())[0]
 
 
 # Example attributes:
-data['VariantQuery{"zpid":296376611,"altId":null}']['property'].keys()
+print(data['VariantQuery{"zpid":296376611,"altId":null}']['property'].keys())
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['yearBuilt']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['lotSize']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['homeType']
@@ -90,21 +90,8 @@ data['VariantQuery{"zpid":296376611,"altId":null}']['property']['lotAreaUnit']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['zestimate']
 
 #other attributes:
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['CostOfHome']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['EstimatedPayment'] # price per month
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['TimeOnZillow']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['ZillowViews']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['ZillowSaves']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Parking']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['PriceSqft']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Bedrooms']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Bathrooms']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Condition'] # new house?
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['MonthlyCost']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['NearbySchoolRatings'] # prob could get the average of ratings?
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['WalkScore']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['TransitScore']
-data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Neighborhood'] # zip code
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['zpid']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['price']
 
 # NEXT STEPS:
 # Make sure we have all the variables we could possibly want to collect
