@@ -20,8 +20,8 @@ soup = BeautifulSoup(response, "html.parser")
 
 # Get the number of listings
 nListings = soup.find_all("div", class_="total-text")
-#print("There are", nListings[0].text, nListings[0].next_sibling,
-#      "and", nListings[1].text, nListings[1].next_sibling)
+print("There are", nListings[0].text, nListings[0].next_sibling,
+      "and", nListings[1].text, nListings[1].next_sibling)
 
 # Get data from all listings
 all_listings = soup.find(
@@ -34,13 +34,13 @@ all_listings = json.loads(all_listings)
 
 # Look at data:
 # View entire response
-#pprint.pprint(all_listings)  # Too much output to see it all
+pprint.pprint(all_listings)  # Too much output to see it all
 
 # Narrow it down to just the results-related data
 all_listings.keys()
 all_listings['cat1'].keys()  # We want 'cat1' > 'searchResults' > 'listResults'
 # This is the file 'search-results-sample-cleaned.txt'
-#pprint.pprint(all_listings['cat1']['searchResults']['listResults'])
+pprint.pprint(all_listings['cat1']['searchResults']['listResults'])
 
 # This is a list of json dictionaries, one entry for each home result on the page
 type(all_listings['cat1']['searchResults']['listResults'])
@@ -70,12 +70,12 @@ soup = BeautifulSoup(response, "html.parser")
 data = json.loads(soup.find("script", type="application/json",
                   id="hdpApolloPreloadedData").string)
 data = json.loads(data['apiCache'])
-#pprint.pprint(data)  # This is the file 'individual-list-sample-cleaned.txt'
+pprint.pprint(data)  # This is the file 'individual-list-sample-cleaned.txt'
 list(data.keys())[0]
 
 
 # Example attributes:
-print(data['ForSaleDoubleScrollFullRenderQuery{"zpid":296376611,"contactFormRenderParameter":{"zpid":296376611,"platform":"desktop","isDoubleScroll":true}}']['property'].keys())
+data['VariantQuery{"zpid":296376611,"altId":null}']['property'].keys()
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['yearBuilt']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['lotSize']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['homeType']
@@ -89,9 +89,28 @@ data['VariantQuery{"zpid":296376611,"altId":null}']['property']['lotAreaUnit']
 # This Zestimate does not match what's on the website for some reason
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['zestimate']
 
-#other attributes:
+# other attributes:
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['zpid']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['price']
+
+# more attributes
+data['ForSaleDoubleScrollFullRenderQuery{"zpid":296376611,"contactFormRenderParameter":{"zpid":296376611,"platform":"desktop","isDoubleScroll":true}}']['property'].keys()
+attribute_key = data['ForSaleDoubleScrollFullRenderQuery{"zpid":296376611,"contactFormRenderParameter":{"zpid":296376611,"platform":"desktop","isDoubleScroll":true}}']['property']
+attribute_key['isCurrentSignedInAgentResponsible']
+attribute_key['bedrooms']
+attribute_key['bathrooms']
+attribute_key['description']
+attribute_key['propertyTypeDimension']
+attribute_key['foreclosurePriorSaleAmount']
+attribute_key['foreclosureAmount']
+attribute_key['foreclosingBank']
+attribute_key['rentZestimate']
+attribute_key['priceChangeDate']
+attribute_key['mortgageRates']
+attribute_key['propertyTaxRate']
+attribute_key['isListedByOwner']
+attribute_key['timeOnZillow']
+attribute_key['parentRegion']
 
 # NEXT STEPS:
 # Make sure we have all the variables we could possibly want to collect
