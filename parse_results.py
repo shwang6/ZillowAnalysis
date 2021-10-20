@@ -88,6 +88,23 @@ data['VariantQuery{"zpid":296376611,"altId":null}']['property']['lotAreaUnit']
 # This Zestimate does not match what's on the website for some reason
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['zestimate']
 
+#other attributes:
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['CostOfHome']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['EstimatedPayment'] # price per month
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['TimeOnZillow']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['ZillowViews']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['ZillowSaves']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Parking']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['PriceSqft']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Bedrooms']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Bathrooms']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Condition'] # new house?
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['MonthlyCost']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['NearbySchoolRatings'] # prob could get the average of ratings?
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['WalkScore']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['TransitScore']
+data['VariantQuery{"zpid":296376611,"altId":null}']['property']['Neighborhood'] # zip code
+
 # NEXT STEPS:
 # Make sure we have all the variables we could possibly want to collect
 # Save all results from a single page and add to dataframe / database
