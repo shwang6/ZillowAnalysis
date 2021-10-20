@@ -75,7 +75,7 @@ list(data.keys())[0]
 
 
 # Example attributes:
-print(data['VariantQuery{"zpid":296376611,"altId":null}']['property'].keys())
+print(data['ForSaleDoubleScrollFullRenderQuery{"zpid":296376611,"contactFormRenderParameter":{"zpid":296376611,"platform":"desktop","isDoubleScroll":true}}']['property'].keys())
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['yearBuilt']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['lotSize']
 data['VariantQuery{"zpid":296376611,"altId":null}']['property']['homeType']
