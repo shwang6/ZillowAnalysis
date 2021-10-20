@@ -1,5 +1,5 @@
 from io import TextIOWrapper
-from typing import Dict, List, Union, TypedDict
+from typing import Dict, List, Union
 
 # Parsing Imports
 from bs4 import BeautifulSoup
@@ -8,15 +8,11 @@ import requests
 import json
 import time
 
+from helpers.headers import getRandomHeaders
+
 # Type Aliases to make Type Hints more helpful
 URL = str
 OpenFile = TextIOWrapper
-
-
-class Listing(TypedDict):
-    address: str
-    url: str
-
 
 headers = {
     'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -30,19 +26,18 @@ headers = {
 
 
 class Parser():
-    def __init__(self, data_source: Union[OpenFile, URL, None] = None) -> None:
+    def __init__(self, data_source: Union[URL, None] = None) -> None:
         if isinstance(data_source, URL):
             response = requests.get(data_source, headers=headers).content
-        elif isinstance(data_source, OpenFile):
-            response = data_source.read()
 
         self.soup = BeautifulSoup(
             response, "html.parser") if data_source else None
 
         self.urls: Dict[str, List[URL]] = {}
-        self.listings: List[Listing] = []
+        self.listings: List[Dict] = []
 
-    def parseSearchPage(self, region: str, pages: List[int] = []) -> List[URL]:
+    def parseSearchPage(self, city: str, state: str, pages: List[int] = []) -> List[URL]:
+        region = f'{city},-{state}'
         search_url = f'https://www.zillow.com/{region}/'
         self.urls[region] = []
         if not pages:
@@ -67,7 +62,8 @@ class Parser():
                 time.sleep(2)
         else:
             for page in pages:
-                resp = requests.get(f'{search_url}{page}_p/', headers=headers)
+                resp = requests.get(
+                    f'{search_url}{page}_p/', headers=headers)
                 if resp.status_code == 400:
                     break
                 soup = BeautifulSoup(resp.content, "html.parser")
@@ -89,10 +85,45 @@ class Parser():
 
         return self.urls[region]
 
-    def parseIndividalListing(self, url: URL) -> Listing:
-        pass
+    def parseIndividalListing(self, url: URL) -> Dict:
+        resp = requests.get(url, headers=headers)
+        soup = BeautifulSoup(resp.content, "html.parser")
+
+        data = json.loads(soup.find("script", type="application/json",
+                                    id="hdpApolloPreloadedData").string)
+        data = json.loads(data['apiCache'])
+        data = data[list(data.keys())[1]]
+
+        listing_data = data['property']
+        self.listings.append(listing_data)
+
+        return listing_data
+
+    def parseListings(self, urls: List[URL]) -> List[Dict]:
+        for url in urls:
+            self.parseIndividalListing(url)["streetAddress"]
+            time.sleep(1)
+        return self.listings
 
 
+# Example of how to use class
 if __name__ == "__main__":
+
+    # Initialize Class
     parser = Parser()
-    print(parser.parseSearchPage('Knoxville,-TN', [1, 2, 3]))
+
+    # Loads First page of Search Results for Knoxville, TN
+    parser.parseSearchPage('Knoxville', 'TN', [1])
+
+    # Store list of data from houses
+    data = []
+
+    # Urls are organized by Region
+    for listings in parser.urls.values():
+        # Get data on the 3rd listing in the Region
+        data = parser.parseListings(listings[:4])
+
+    # Prints some data about the first house
+    for home in data:
+        print(f"House at {home['streetAddress']} was built in {home['yearBuilt']}" +
+              f" and it was last sold for ${home['lastSoldPrice']}.")
