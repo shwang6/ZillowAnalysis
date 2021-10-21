@@ -36,6 +36,20 @@ class Parser():
         self.urls: Dict[str, List[URL]] = {}
         self.listings: List[Dict] = []
 
+    def getListings(self, city: str, state: str, count: int) -> List[Dict]:
+        listings = []
+        count = int(count / 40) 
+        count += 1 if count == 0 else 0
+
+        urls = self.parseSearchPage(city, state, [x for x in range(count)])
+        url = 0
+
+        while len(listings) < count:
+            listings.append(urls[url])
+            url += 1
+
+        return listings
+
     def parseSearchPage(self, city: str, state: str, pages: List[int] = []) -> List[URL]:
         region = f'{city},-{state}'
         search_url = f'https://www.zillow.com/{region}/'
