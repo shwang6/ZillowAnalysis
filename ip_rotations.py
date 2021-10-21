@@ -9,22 +9,19 @@ import json
 We want to be able to rotate IP addresses to prevent Zillow from blocking the web crawler.
 There are publicly available proxies that aren't very reliable because they're public.
 This method uses proxies from AWS API Gateway. Docs at https://github.com/Ge0rg3/requests-ip-rotator
+
+There has been a recent update to this function that makes the code much more condensed,
+automatically starts and shuts off the gateway (so we don't get accidental charges from AWS),
+and automatically radomizes the 'X-My-X-Forwarded-For'.
+Make sure you have the latest version 1.0.10 with 'pip3 install requests-ip-rotator --upgrade'.
 """
 
-# Create gateway object and initialise in AWS
-gateway = ApiGateway("https://www.zillow.com")
-gateway.start()
+#This test will be with httpbin, which is great to test out what our header and ip look like
+with ApiGateway("https://httpbin.org", access_key_id, access_key_secret) as g: #access_key_id and access_key_secret should be in the .env file. These arguments should be optional
+    session = requests.Session()
+    session.mount("https://httpbin.org", g)
 
-# Assign gateway to session
-session = requests.Session()
-session.mount("https://www.zillow.com", gateway)
-
-# Send request (IP will be randomised)
-url= 'https://www.zillow.com/homes/Knoxville-TN/'
-response = session.post(url, headers={'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Safari/605.1.15',
-                                                                 "X-My-X-Forwarded-For":"29.391.493.29"})
-# We will also need to rotate the 'User-Agent' and maybe randomize the X-My-X-Fowarded-For
-print(response.status_code)
-
-# Delete gateways
-gateway.shutdown()
+    response = session.get("https://httpbin.org/anything")
+    print(response.status_code)
+    BeautifulSoup(response.content, "html.parser")
+    #ip is the 'origin'. The first ip is the randomly generated 'X-My-X-Forwarded-For', the second ip is the proxy from AWS API Gateway
