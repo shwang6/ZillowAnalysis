@@ -3,6 +3,17 @@ import requests
 import json
 import pprint
 import os
+import collections
+
+#NEW: Flatten a nested dictionary
+def flatten(d, parent_key='', sep='_'):
+    items = []
+    for k, v in d.items():
+        if isinstance(v, collections.MutableMapping):
+            items.extend(flatten(v, k, sep=sep).items())
+        else:
+            items.append((k, v))
+    return dict(items)
 
 #***************************#
 #    Search Results Page    #
@@ -45,6 +56,11 @@ pprint.pprint(all_listings['cat1']['searchResults']['listResults'])
 # This is a list of json dictionaries, one entry for each home result on the page
 type(all_listings['cat1']['searchResults']['listResults'])
 len(all_listings['cat1']['searchResults']['listResults'])
+all_listings = all_listings['cat1']['searchResults']['listResults']
+
+#Each listing is a nested list. Flatten the list before inserting into database:
+flatten(all_listings[0], parent_key=False)
+
 # There are 40 results per page. We'll need a way to detect the number of pages so we can cycle through them all.
 # NEXT STEPS:
 # Make sure we have all the variables we could possibly want to collect
