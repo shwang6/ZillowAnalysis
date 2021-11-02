@@ -2,7 +2,7 @@
 This project is to retrieve data from Zillow and analyze trends in the housing market.
 
 ## Task List:
-Create master function (see sudo-code below)   
+Create master function (see pseudocode below)   
 Get function to run on virtual machines   
 Implement auto-start/top of VM when code gets blocked   
 + Update parser to return search results, not just individual listings
@@ -10,7 +10,7 @@ Implement auto-start/top of VM when code gets blocked
 + Update parser return rental results
 
 
-## Master Function Sudo-Code
+## Master Function Pseudocode
 
 1. Get zip code from Firestore that has not yet been scraped (see 'firestore.py')
 2. Get random user-agent for heading (headers.py)
