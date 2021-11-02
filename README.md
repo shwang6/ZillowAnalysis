@@ -12,7 +12,7 @@ Implement auto-start/top of VM when code gets blocked
 
 ## Master Function Sudo-Code
 
-1. Get zip code from Firestore that has not yet been scraped (see 'firestore_examples.py')
+1. Get zip code from Firestore that has not yet been scraped (see 'firestore.py')
 2. Get random user-agent for heading
 3. Get first page of search results
 4. If http request was not blocked by captcha:
@@ -21,7 +21,7 @@ Implement auto-start/top of VM when code gets blocked
 5. For each page in search results (starting with page 2):   
     a. Retrieve, parse and clean response (clean_results.py)   
     b. For each listing in search results:    
-            i. Add to Firestore 'listings' collection (see 'firestore_examples.py')   
+            i. Add to Firestore 'listings' collection (see 'firestore.py')   
 6. Repeat with rentals = True (append '/rentals' to URL)
 7. Update zip code in Firestore with 'scraped' = True
 
