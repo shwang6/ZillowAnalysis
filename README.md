@@ -16,16 +16,16 @@ Implement auto-start/top of VM when code gets blocked
 2. Get random user-agent for heading (headers.py)
 3. Get first page of search results
 4. If http request was not blocked by captcha:    
-&nbsp;&nbsp;&nbsp;&nbsp;5. Get range of page results (for the for-loop below)      
+&nbsp;&nbsp;&nbsp;&nbsp;a. Get range of page results (for the for-loop below)      
    (Number of pages is the number of results/40, with a max of 25)   
-&nbsp;&nbsp;&nbsp;&nbsp; 6. For each page in search results (starting with page 2):   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    a. If http request was no blocked:   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i. Parse and clean response (clean_results.py)    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ii. For each listing in search results:    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. Add to Firestore 'listings' collection (see 'firestore.py')   
-6. Repeat from step 3 with rentals = True (append '/rentals' to URL)
-7. Update zip code in Firestore with 'scraped' = True
-8. Repeat from step 1
+&nbsp;&nbsp;&nbsp;&nbsp; b. For each page in search results (starting with page 2):   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    i. If http request was no blocked:   
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. Parse and clean response (clean_results.py)    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. For each listing in search results:    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a. Add to Firestore 'listings' collection (see 'firestore.py')   
+5. Repeat from step 3 with rentals = True (append '/rentals' to URL)
+6. Update zip code in Firestore with 'scraped' = True
+7. Repeat from step 1
 
 
 
