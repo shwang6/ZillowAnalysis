@@ -18,7 +18,11 @@ zips_ref = db.collection(u'zipcodes').where('City', '==', 'KNOXVILLE').where("St
 docs = zips_ref.stream()
 for doc in docs:
     doc.to_dict()['Zipcode']
-    
+"""
+In practice we'll use this with the condition where('Scraped', '==', False), which is how we will
+keep track of which zip codes the function will scrape next.
+We may want to prioritize more local zip codes first.
+"""
     
 
 #***************************#
@@ -31,5 +35,4 @@ for i in range(len(all_listings)):
 This creates a new entry in the 'listings' collection that uses zillow's id number as the identifier of the listing.
 If the entry exists, it will be overwritten with the new data.
 'all_listings' is a list of dictionaries, each entry of the list corresponding to a listing from the search results.
-
 """
