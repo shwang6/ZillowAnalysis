@@ -9,7 +9,7 @@ This project is to retrieve data from Zillow and analyze trends in the housing m
    + Check if http request was denied & error handling [Selena / Sehee]
    + Clean code [Matt / Everybody]
 + Get function to run on virtual machines / docker container [Matt]
-+ Implement auto-start/top of VM when code gets blocked   
++ Implement auto-start/top of VM when code gets blocked [Marc]
 + Get zip code data (maybe from the Census?) and append to Firestore db [Sehee]
 
 
