@@ -3,12 +3,14 @@ This project is to retrieve data from Zillow and analyze trends in the housing m
 
 ## Task List:
 + Create master function (see pseudocode below)   
-   + Update parser to return search results, not just individual listings
-   + Update parser to accept zip code as input
-   + Update parser return rental results
-+ Get function to run on virtual machines   
+   + Update parser to return search results, not just individual listings [Vishal]
+   + Update parser to accept zip code as input [Vishal]
+   + Update parser return rental results [Vishal]
+   + Check if http request was denied & error handling [Selena / Sehee]
+   + Clean code [Matt / Everybody]
++ Get function to run on virtual machines / docker container [Matt]
 + Implement auto-start/top of VM when code gets blocked   
-
++ Get zip code data (maybe from the Census?) and append to Firestore db [Sehee]
 
 
 ## Master Function Pseudocode
