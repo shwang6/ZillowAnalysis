@@ -2,12 +2,13 @@
 This project is to retrieve data from Zillow and analyze trends in the housing market.
 
 ## Task List:
-Create master function (see pseudocode below)   
-Get function to run on virtual machines   
-Implement auto-start/top of VM when code gets blocked   
-+ Update parser to return search results, not just individual listings
-+ Update parser to accept zip code as input
-+ Update parser return rental results
++ Create master function (see pseudocode below)   
+   + Update parser to return search results, not just individual listings
+   + Update parser to accept zip code as input
+   + Update parser return rental results
++ Get function to run on virtual machines   
++ Implement auto-start/top of VM when code gets blocked   
+
 
 
 ## Master Function Pseudocode
