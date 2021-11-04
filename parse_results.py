@@ -31,8 +31,8 @@ soup = BeautifulSoup(response, "html.parser")
 
 # Get the number of listings
 nListings = soup.find_all("div", class_="total-text")
-print("There are", nListings[0].text, nListings[0].next_sibling,
-      "and", nListings[1].text, nListings[1].next_sibling)
+print("There are", nListings[0].text, nListings[0].next_sibling, #Agent listings
+      "and", nListings[1].text, nListings[1].next_sibling) #Other listings
 
 # Get data from all listings
 all_listings = soup.find(
