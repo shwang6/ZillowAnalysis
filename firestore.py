@@ -33,7 +33,7 @@ for i in range(len(all_listings)):
 	
 """
 This creates a new entry in the 'listings' collection that uses zillow's id number as the identifier of the listing.
-If the entry exists, it will be overwritten with the new data.
+If the entry exists, it will throw an error.
 'all_listings' is a list of dictionaries, each entry of the list corresponding to a listing from the search results.
 
 CAUTION: DO NOT USE THIS METHOD:
