@@ -164,7 +164,7 @@ class Parser:
         if rent: search_url += 'rent/'
         these_listings = []
         start = self.parse_cache[region] if region in self.parse_cache else 1
-        pages = [i for i in range(start, 21)] if not pages else pages
+        pages = [i for i in range(start, 26)] if not pages else pages
         all_addresses = set()
         all_listings = []
 
