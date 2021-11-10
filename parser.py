@@ -8,6 +8,7 @@ import json
 import time
 from os import _exit
 from os.path import exists
+from tqdm.auto import tqdm
 
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -31,6 +32,17 @@ headers = {
     "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
     "referer": "https://www.google.com/",
 }
+
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 class Parser:
     def __init__(self, data_source: Union[URL, None] = None) -> None:
@@ -154,29 +166,28 @@ class Parser:
         start = self.parse_cache[region] if region in self.parse_cache else 1
         pages = [i for i in range(start, 21)] if not pages else pages
         all_addresses = set()
+        all_listings = []
 
         for page in pages:
             try:
                 resp = requests.get(f"{search_url}{page}_p/", headers=headers)
                 soup = BeautifulSoup(resp.content, "html.parser")
-                if all_listings := soup.find(
+                if listings := soup.find(
                     "script",
                     attrs={"data-zrr-shared-data-key": "mobileSearchPageStore"},
                 ):
-                    all_listings = all_listings.string.replace("<!--", "").replace(
+                    listings = listings.string.replace("<!--", "").replace(
                         "-->", ""
                     )
-                    all_listings = json.loads(all_listings)["cat1"]["searchResults"][
+                    listings = json.loads(listings)["cat1"]["searchResults"][
                         "listResults"
                     ]
+                    if not listings: break
                     # If page redirected back to valid page break
-                    if all_listings[0]['addressStreet'] in all_addresses: break
-                    all_addresses = set()
-                    for listing in all_listings:
-                        if listing['addressStreet'] not in all_addresses:
-                            self.saveListing(listing)
-                            all_addresses.add(listing['addressStreet'])
-                            these_listings.append(listing)
+                    if listings[0]['addressStreet'] in all_addresses: break
+                    all_addresses.add(listings[0]['addressStreet'])
+                    all_listings += listings
+
 
                 time.sleep(1)
             except (ValueError):
@@ -186,7 +197,13 @@ class Parser:
                     cache.write(json.dumps(self.parse_cache))
                     _exit(1)
 
-            self.parse_cache[region] = -1
+        for listing in tqdm(all_listings, desc=f'{c_or_z}'):
+            if listing['addressStreet'] not in all_addresses:
+                self.saveListing(listing)
+                all_addresses.add(listing['addressStreet'])
+                these_listings.append(listing)
+
+        self.parse_cache[region] = -1
 
         return these_listings
 
@@ -195,7 +212,7 @@ class Parser:
             db_ref = db.collection('zipcodes').document(start)
             return [z.to_dict() for z in db.collection('zipcodes').start_at(db_ref.get()).limit(amount).get()]
         except:
-            print(f'Zipcode for {start} not in DB')
+            print(bcolors.FAIL + f'Zipcode for {start} not in DB' + bcolors.ENDC)
             return []
 
     def saveListing(self, listing: Dict) -> bool:
@@ -209,16 +226,18 @@ if __name__ == "__main__":
     # Initialize Class
     parser = Parser()
 
-    starting_zip = input('Starting ZipCode: ')
-    count = input('Amount of ZipCodes to Parse: ')
+    starting_zip = input(bcolors.OKBLUE + 'Starting ZipCode: ' + bcolors.ENDC)
+    count = input(bcolors.OKBLUE + 'Amount of ZipCodes to Parse: ' + bcolors.ENDC)
 
     zip_codes = parser.getZipCodes(starting_zip, int(count))
+    total_saved = 0
 
     for zip_code in zip_codes:
         z = zip_code['Zipcode']
         st = zip_code['State']
         results = parser.getListingDataSP(z, st)
-        print(f'Saved {len(results)} from {z} in {st}')
+        total_saved += len(results)
+    print(bcolors.OKGREEN + f'Saved {total_saved} listings from {len(zip_codes)} zipcodes to 🔥 Firestore' + bcolors.ENDC)
     # Loads First page of Search Results for Knoxville, TN
     # parser.getListingDataSP("37916", "TN")
 
