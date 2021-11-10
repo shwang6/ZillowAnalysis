@@ -110,6 +110,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Credentials
+serviceAccountKey.json
+
 # Spyder project settings
 .spyderproject
 .spyproject
